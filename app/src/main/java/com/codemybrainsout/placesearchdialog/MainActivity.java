@@ -39,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
                     public void locationName(String locationName) {
                         location.setText(locationName);
                     }
+
+                    @Override
+                    public void placeId(String placeId) {
+
+                    }
                 })
                 .build();
         placeSearchDialog.show();
