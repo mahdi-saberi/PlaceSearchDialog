@@ -30,6 +30,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
     private String TAG = "PlaceSearchDialog";
 
     private AppCompatAutoCompleteTextView locationET;
+    private String place_id;
     private TextInputLayout locationTIL;
     private AppCompatTextView cancelTV;
     private AppCompatTextView okTV;
@@ -45,6 +46,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
     public interface LocationNameListener {
         public void locationName(String locationName);
+        public void placeId(String placeId);
     }
 
     public PlaceSearchDialog(Context context, Builder builder) {
@@ -102,6 +104,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
             final AutocompletePrediction item = mAdapter.getItem(position);
             final String placeId = item.getPlaceId();
+            place_id = placeId;
             final CharSequence primaryText = item.getPrimaryText(null);
 
             //Hide Keyboard
@@ -116,6 +119,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
     private void ok() {
         if (builder.locationNameListener != null) {
             builder.locationNameListener.locationName(locationET.getText().toString().trim());
+            builder.locationNameListener.placeId(place_id);
         }
         dismiss();
     }
