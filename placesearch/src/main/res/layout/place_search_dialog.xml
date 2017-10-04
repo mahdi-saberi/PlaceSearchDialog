@@ -84,6 +84,18 @@
                 android:text="@string/ok"
                 android:textColor="@color/mt_red" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/place_search_dialog_selectMap_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:padding="10dp"
+                android:gravity="left"
+                android:text="@string/select_map"
+                android:textColor="@color/mt_gray3" />
+
         </RelativeLayout>
 
     </LinearLayout>

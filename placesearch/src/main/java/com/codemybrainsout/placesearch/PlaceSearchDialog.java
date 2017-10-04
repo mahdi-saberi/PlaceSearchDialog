@@ -33,6 +33,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
     private String place_id;
     private TextInputLayout locationTIL;
     private AppCompatTextView cancelTV;
+    private AppCompatTextView selectMapTV;
     private AppCompatTextView okTV;
     private ImageView headerImageIV;
 
@@ -47,6 +48,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
     public interface LocationNameListener {
         public void locationName(String locationName);
         public void placeId(String placeId);
+        //public void selectMapClick();
     }
 
     public PlaceSearchDialog(Context context, Builder builder) {
@@ -61,11 +63,13 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         locationET = (AppCompatAutoCompleteTextView) findViewById(R.id.place_search_dialog_location_ET);
         locationTIL = (TextInputLayout) findViewById(R.id.place_search_dialog_location_TIL);
         cancelTV = (AppCompatTextView) findViewById(R.id.place_search_dialog_cancel_TV);
+        selectMapTV = (AppCompatTextView) findViewById(R.id.place_search_dialog_selectMap_TV);
         okTV = (AppCompatTextView) findViewById(R.id.place_search_dialog_ok_TV);
         headerImageIV = (ImageView) findViewById(R.id.place_search_dialog_header_image_IV);
 
         okTV.setOnClickListener(this);
         cancelTV.setOnClickListener(this);
+        selectMapTV.setOnClickListener(this);
 
         buildDialog();
 
@@ -79,11 +83,13 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
         okTV.setText(!TextUtils.isEmpty(builder.positiveText) ? builder.positiveText : context.getResources().getString(R.string.ok));
         cancelTV.setText(!TextUtils.isEmpty(builder.negativeText) ? builder.negativeText : context.getResources().getString(R.string.cancel));
+        selectMapTV.setText(!TextUtils.isEmpty(builder.selectMapText) ? builder.selectMapText : context.getResources().getString(R.string.select_map));
         locationET.setHint(!TextUtils.isEmpty(builder.hintText) ? builder.hintText : context.getResources().getString(R.string.enter_location_hint));
 
         okTV.setTextColor(builder.positiveTextColor != 0 ? ContextCompat.getColor(context, builder.positiveTextColor) : ContextCompat.getColor(context, R.color.mt_red));
         cancelTV.setTextColor(builder.negativeTextColor != 0 ? ContextCompat.getColor(context, builder.negativeTextColor) : ContextCompat.getColor(context, R.color.mt_gray4));
-        locationET.setHintTextColor(builder.hintTextColor != 0 ? ContextCompat.getColor(context, builder.hintTextColor) : ContextCompat.getColor(context, R.color.mt_gray3));
+        selectMapTV.setTextColor(builder.selectMapTextColor != 0 ? ContextCompat.getColor(context, builder.selectMapTextColor) : ContextCompat.getColor(context, R.color.mt_gray2));
+        locationET.setHintTextColor(builder.hintTextColor != 0 ? ContextCompat.getColor(context, builder.hintTextColor) : ContextCompat.getColor(context, R.color.primary_text));
 
         if (builder.latLngBounds != null) {
             BOUNDS_WORLD = builder.latLngBounds;
@@ -180,6 +186,8 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
             ok();
         } else if (view.getId() == R.id.place_search_dialog_cancel_TV) {
             dismiss();
+        } else if (view.getId() == R.id.place_search_dialog_selectMap_TV) {
+            selectMapClick();
         }
     }
 
@@ -188,8 +196,8 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         private Context context;
         private LocationNameListener locationNameListener;
         private LatLngBounds latLngBounds;
-        private String positiveText, negativeText, hintText;
-        private int positiveTextColor, negativeTextColor, hintTextColor;
+        private String positiveText, negativeText,selectMapText, hintText;
+        private int positiveTextColor, negativeTextColor,selectMapTextColor, hintTextColor;
         private int headerImageResource;
 
         public Builder(Context context) {
@@ -213,6 +221,16 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
         public Builder setNegativeText(String negativeText) {
             this.negativeText = negativeText;
+            return this;
+        }
+
+        public Builder setSelectMapText(String selectMapText) {
+            this.selectMapText = selectMapText;
+            return this;
+        }
+
+        public Builder setSelectMapTextColor(int selectMapTextColor) {
+            this.selectMapTextColor = selectMapTextColor;
             return this;
         }
 
@@ -245,6 +263,11 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
             return new PlaceSearchDialog(context, this);
         }
 
+    }
+
+
+    protected void selectMapClick(){
+        Toast.makeText(context , "salam" , Toast.LENGTH_SHORT).show();
     }
 
 }
