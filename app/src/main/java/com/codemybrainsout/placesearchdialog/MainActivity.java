@@ -1,5 +1,6 @@
 package com.codemybrainsout.placesearchdialog;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -10,7 +11,7 @@ import android.widget.Toast;
 
 import com.codemybrainsout.placesearch.PlaceSearchDialog;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
     TextInputEditText location;
 
@@ -46,16 +47,21 @@ public class MainActivity extends AppCompatActivity  {
                     public void placeId(String placeId) {
 
                     }
-/*
+
                     @Override
-                    public void selectMapClick() {
-                        Toast.makeText(MainActivity.this , "salam2" , Toast.LENGTH_SHORT).show();
-                    }*/
+                    public View.OnClickListener selectMapClick() {
+                        View.OnClickListener v = new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(MainActivity.this, "Clicked!", Toast.LENGTH_SHORT).show();
+                            }
+                        };
+                        return v;
+                    }
                 })
-                .setSelectMapText("انتخاب از نقشه")
+                .setSelectMapText("Select From Map")
                 .setSelectMapTextColor(R.color.colorPrimaryDark)
                 .build();
-
 
 
         placeSearchDialog.show();

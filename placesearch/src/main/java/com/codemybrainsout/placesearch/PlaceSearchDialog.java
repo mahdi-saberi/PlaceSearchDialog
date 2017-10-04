@@ -47,8 +47,10 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
     public interface LocationNameListener {
         public void locationName(String locationName);
+
         public void placeId(String placeId);
-        //public void selectMapClick();
+
+        public View.OnClickListener selectMapClick();
     }
 
     public PlaceSearchDialog(Context context, Builder builder) {
@@ -69,7 +71,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
         okTV.setOnClickListener(this);
         cancelTV.setOnClickListener(this);
-        selectMapTV.setOnClickListener(this);
+        selectMapTV.setOnClickListener(builder.locationNameListener.selectMapClick());
 
         buildDialog();
 
@@ -187,7 +189,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         } else if (view.getId() == R.id.place_search_dialog_cancel_TV) {
             dismiss();
         } else if (view.getId() == R.id.place_search_dialog_selectMap_TV) {
-            selectMapClick();
+            builder.locationNameListener.selectMapClick();
         }
     }
 
@@ -196,8 +198,8 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         private Context context;
         private LocationNameListener locationNameListener;
         private LatLngBounds latLngBounds;
-        private String positiveText, negativeText,selectMapText, hintText;
-        private int positiveTextColor, negativeTextColor,selectMapTextColor, hintTextColor;
+        private String positiveText, negativeText, selectMapText, hintText;
+        private int positiveTextColor, negativeTextColor, selectMapTextColor, hintTextColor;
         private int headerImageResource;
 
         public Builder(Context context) {
@@ -264,10 +266,5 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         }
 
     }
-
-
-    protected void selectMapClick(){
-        Toast.makeText(context , "salam" , Toast.LENGTH_SHORT).show();
-    }
-
+    
 }
