@@ -5,11 +5,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
 import com.codemybrainsout.placesearch.PlaceSearchDialog;
+import com.google.android.gms.maps.model.LatLng;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void placeId(String placeId) {
 
+                    }
+
+                    @Override
+                    public void getLatLng(LatLng latLng) {
+                        
                     }
 
                     @Override
