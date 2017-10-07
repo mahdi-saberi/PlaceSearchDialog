@@ -17,7 +17,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -31,6 +34,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
 
     private AppCompatAutoCompleteTextView locationET;
     private String place_id;
+    private LatLng latLngLocation;
     private TextInputLayout locationTIL;
     private AppCompatTextView cancelTV;
     private AppCompatTextView selectMapTV;
@@ -49,6 +53,8 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         public void locationName(String locationName);
 
         public void placeId(String placeId);
+
+        public void getLatLng(LatLng latLng);
 
         public View.OnClickListener selectMapClick();
     }
@@ -119,6 +125,23 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
             InputMethodManager in = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             in.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+            Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
+                    .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                        @Override
+                        public void onResult(PlaceBuffer places) {
+                            if (places.getStatus().isSuccess()) {
+                                final Place myPlace = places.get(0);
+                                LatLng queriedLocation = myPlace.getLatLng();
+                                latLngLocation = queriedLocation ;
+                                Log.v("aaaa placeId is", "" + placeId);
+                                Log.v("aaaa Latitude is", "" + queriedLocation.latitude);
+                                Log.v("aaaa Longitude is", "" + queriedLocation.longitude);
+                            }
+                            places.release();
+                        }
+                    });
+
+
             Log.i(TAG, "Autocomplete item selected: " + primaryText);
         }
     };
@@ -128,6 +151,7 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         if (builder.locationNameListener != null) {
             builder.locationNameListener.locationName(locationET.getText().toString().trim());
             builder.locationNameListener.placeId(place_id);
+            builder.locationNameListener.getLatLng(latLngLocation);
         }
         dismiss();
     }
@@ -266,5 +290,5 @@ public class PlaceSearchDialog extends AppCompatDialog implements GoogleApiClien
         }
 
     }
-    
+
 }
